@@ -1,4 +1,10 @@
 const Todo = require('../models/Todo');
+const {
+	SUCCESSFULLY_CREATED_MESSAGE,
+	SUCCESSFULLY_UPADATED_MESSAGE,
+	SUCCESSFULLY_TOGGLED_MESSAGE,
+	SUCCESSFULLY_REMOVED_MESSAGE,
+} = require('../constants/index.js');
 
 function getAll(req, res) {
 	async function main() {
@@ -25,7 +31,7 @@ function get(req, res) {
 function create(req, res) {
 	async function main() {
 		const todo = await Todo.create(req.body);
-		if (todo) res.status(200).json({todo, msg: 'Todo successfully created', status: 0});
+		if (todo) res.status(200).json({todo, msg: SUCCESSFULLY_CREATED_MESSAGE, status: 0});
 	}
 
 	return main()
@@ -34,12 +40,11 @@ function create(req, res) {
 
 function update(req, res) {
 	const id = req.params.todoId;
+	const updatedTodo = req.body;
 
 	async function main() {
-		const updatedTodo = req.body;
 		const todo = await Todo.update(id, updatedTodo);
-
-		if (todo) res.status(200).json({todo, msg: 'Todo successfully updated', status: 0});
+		if (todo) res.status(200).json({todo, msg: SUCCESSFULLY_UPADATED_MESSAGE, status: 0});
 	}
 
 	return main()
@@ -51,10 +56,8 @@ function toggle(req, res) {
 
 	async function main() {
 		const todo = await Todo.toggle(id);
-		if(todo.err) {
-			return res.status(400).json(todo);
-		}
-		res.status(200).json({todo, msg: 'Todo successfully toggled', status: 0});
+		if (todo.err) return res.status(400).json(todo);
+		res.status(200).json({todo, msg: SUCCESSFULLY_TOGGLED_MESSAGE, status: 0});
 	}
 
 	return main()
@@ -66,13 +69,12 @@ function remove(req, res) {
 
 	async function main() {
 		const todo = await Todo.remove(id);
-		if (todo) res.status(200).json({id, msg: 'Todo successfully removed', status: 0});
+		if (todo) res.status(200).json({id, msg: SUCCESSFULLY_REMOVED_MESSAGE, status: 0});
 	}
 
 	return main()
 		.catch(err => res.status(500).json(err));
 }
-
 
 module.exports = {
 	getAll,

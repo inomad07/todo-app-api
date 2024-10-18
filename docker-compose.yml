@@ -1,0 +1,27 @@
+services:
+  nodejs: 
+    container_name: todo-api
+    build: 
+      context: . 
+      dockerfile: Dockerfile
+    restart: unless-stopped  
+    env_file:
+      - .env.sample
+    ports:
+      - 3001:3001
+  mongodb:
+    container_name: tododb
+    volumes:
+      - mongo_backup:/var/lib/mongodb
+    image: mongo:latest
+    restart: unless-stopped
+    command:
+      - --storageEngine
+      - wiredTiger
+      - --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: AdminTodo 
+      MONGO_INITDB_ROOT_PASSWORD: AdminTodoSecurePassword
+      MONGO_INITDB_DATABASE: TodoList
+volumes: 
+  mongo_backup: 

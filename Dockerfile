@@ -3,7 +3,7 @@
 FROM node:12.18.0
 
 # Create App Directory
-RUN mkdir -p /usr/src/app
+# RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install Dependencies

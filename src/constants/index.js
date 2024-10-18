@@ -1,0 +1,11 @@
+const SUCCESSFULLY_CREATED_MESSAGE = 'Todo successfully created';
+const SUCCESSFULLY_UPADATED_MESSAGE = 'Todo successfully updated';
+const SUCCESSFULLY_TOGGLED_MESSAGE = 'Todo successfully toggled';
+const SUCCESSFULLY_REMOVED_MESSAGE = 'Todo successfully removed';
+
+module.exports = {
+	SUCCESSFULLY_CREATED_MESSAGE,
+	SUCCESSFULLY_UPADATED_MESSAGE,
+	SUCCESSFULLY_TOGGLED_MESSAGE,
+	SUCCESSFULLY_REMOVED_MESSAGE,
+};
