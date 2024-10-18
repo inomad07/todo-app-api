@@ -1,8 +1,6 @@
 require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
 
-const { getOptionUri } = require('../utils/helper');
-
 const env = process.env.ENV;
 const dbUri = process.env.MONGO_DB;
 const mongoUser = process.env.MONGO_USER;
@@ -14,8 +12,9 @@ const port = process.env.MONGO_PORT;
 
 const userUri = `${mongoUser}:${pwd}`;
 const hostUri = `${host}:${port}`;
-
-const options = getOptionUri();
+const mongoAuth = process.env.MONGO_AUTH;
+const userRole = process.env.MONGO_ROLE;
+const options = `${mongoAuth}=${userRole}`;
 
 let mongoConnectionUri;
 
