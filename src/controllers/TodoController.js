@@ -34,11 +34,10 @@ function create(req, res) {
 
 function update(req, res) {
 	const id = req.params.todoId;
+	const updatedTodo = req.body;
 
 	async function main() {
-		const updatedTodo = req.body;
 		const todo = await Todo.update(id, updatedTodo);
-
 		if (todo) res.status(200).json({todo, msg: 'Todo successfully updated', status: 0});
 	}
 
@@ -51,9 +50,7 @@ function toggle(req, res) {
 
 	async function main() {
 		const todo = await Todo.toggle(id);
-		if(todo.err) {
-			return res.status(400).json(todo);
-		}
+		if (todo.err) return res.status(400).json(todo);
 		res.status(200).json({todo, msg: 'Todo successfully toggled', status: 0});
 	}
 
