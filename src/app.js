@@ -5,7 +5,7 @@ const express = require('express');
 const apiRouter  = require('./routes/api');
 const connectDB = require('./configs/db');
 const port = process.env.PORT;
-
+const host = process.env.HOST
 const app = express();
 connectDB();
 
@@ -17,7 +17,7 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`Server started at localhost:${port}`);
+	console.log(`Server started at ${host}:${port}`);
 });
 
 exports = module.exports = app;
