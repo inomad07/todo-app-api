@@ -1,27 +1,38 @@
 services:
-  nodejs: 
+  nodejs:
     container_name: todo-api
-    build: 
-      context: . 
+    build:
+      context: .
       dockerfile: Dockerfile
-    restart: unless-stopped  
-    env_file:
-      - .env.sample
+    restart: unless-stopped
     ports:
-      - 3001:3001
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      # Sets production mode to trigger the authentication logic in db.js
+      - ENV=production
+      # Points the API to the MongoDB container's service name
+      - HOST=tododb
+      - MONGO_PORT=27017
+      - MONGO_DB=TodoList
+      - MONGO_USER=AdminTodo
+      - MONGO_PWD=AdminTodoSecurePassword
+      - MONGO_AUTH=authSource
+      - MONGO_ROLE=admin
+
   mongodb:
     container_name: tododb
-    volumes:
-      - mongo_backup:/var/lib/mongodb
-    image: mongo:latest
+    # Using the official MongoDB 7.0 image (native arm64 support for M1 Max)
+    image: mongo:7.0
     restart: unless-stopped
-    command:
-      - --storageEngine
-      - wiredTiger
-      - --auth
+    # Persist data outside the container lifecycle
+    volumes:
+      - mongo_backup:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: AdminTodo 
+      MONGO_INITDB_ROOT_USERNAME: AdminTodo
       MONGO_INITDB_ROOT_PASSWORD: AdminTodoSecurePassword
       MONGO_INITDB_DATABASE: TodoList
-volumes: 
-  mongo_backup: 
+
+volumes:
+  # Volume definition for persistent database storage
+  mongo_backup:
